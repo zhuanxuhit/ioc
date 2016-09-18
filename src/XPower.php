@@ -6,9 +6,9 @@
 class XPower implements SuperModuleInterface{
 
 
-    public function activate(array $target)
+    public function activate(Monster $target)
     {
-        echo "X-超能量生效\n";
+        echo "X-超能量攻击怪物{$target->getName()}\n";
         // 这只是个例子。。具体自行脑补
     }
 }

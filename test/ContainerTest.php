@@ -25,9 +25,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
         $superman_3 = $container->make( 'superman', [ 'xpower' ] );
         // ******************  华丽丽的分割线  **********************
         // 魔术开始
-        $superman_1->magic();
-        $superman_2->magic();
-        $superman_3->magic();
+        $monster = new Monster("小明");
+        $superman_1->magic($monster);
+        $superman_2->magic($monster);
+        $superman_3->magic($monster);
     }
 
     public function testClosureResolution()

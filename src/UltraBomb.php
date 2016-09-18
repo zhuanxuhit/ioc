@@ -5,9 +5,9 @@
  */
 class UltraBomb implements SuperModuleInterface
 {
-    public function activate(array $target)
+    public function activate(Monster $target)
     {
         // 这只是个例子。。具体自行脑补
-        echo "终极炸弹生效\n";
+        echo "终极炸弹攻击怪物{$target->getName()}\n";
     }
 }
