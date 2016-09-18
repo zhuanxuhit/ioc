@@ -7,33 +7,42 @@ class Superman {
 
     protected $power;
 
-    public function __construct()
+    public function __construct(array $modules)
     {
-        $this->power = new Power( 999, 100 );
-//        $this->power = new Force(45);
-        // $this->power = new Shot(99, 50, 2);
+        // 初始化工厂
+        $factory = new SuperModuleFactory;
+
+        // 通过工厂提供的方法制造需要的模块
+        foreach ($modules as $moduleName => $moduleOptions) {
+            $this->power[] = $factory->makeModule($moduleName, $moduleOptions);
+        }
     }
 
     public function attack( Monster $monster )
     {
-        if ( $this->power instanceof Power ) {
-            /** @var Power $power */
-            $power = $this->power;
-            echo sprintf("超人能力:%d,范围:%d\n",$power->getAbility(),$power->getRange());
-        }
-        else if ($this->power instanceof Flight){
-            /** @var Flight $flight */
-            $flight = $this->power;
-            echo sprintf("飞行速度:%d,持续飞行时间:%d\n",$flight->getSpeed(),$flight->getHoldtime());
-        }
-        else if ($this->power instanceof Force){
-            /** @var Force $force */
-            $force = $this->power;
-            echo sprintf("力量值:%d\n",$force->getForce());
-        }
-        else {
+        $powers = $this->power;
+        foreach ($powers as $power){
+            if ( $power instanceof Power ) {
+                /** @var Power $power */
+//                $power = $power;
+                echo sprintf("超人能力:%d,范围:%d\n",$power->getAbility(),$power->getRange());
+            }
+            else if ($power instanceof Flight){
+                /** @var Flight $flight */
+                $flight = $power;
+                echo sprintf("飞行速度:%d,持续飞行时间:%d\n",$flight->getSpeed(),$flight->getHoldtime());
+            }
+            else if ($power instanceof Force){
+                /** @var Force $force */
+                $force = $power;
+                echo sprintf("力量值:%d\n",$force->getForce());
+            }
+            else {
 
+            }
         }
+
+
     }
 
     public function magic()
