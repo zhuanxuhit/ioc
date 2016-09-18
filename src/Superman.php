@@ -10,7 +10,7 @@ class Superman {
     public function __construct()
     {
         $this->power = new Power( 999, 100 );
-        $this->power = new Force(45);
+//        $this->power = new Force(45);
         // $this->power = new Shot(99, 50, 2);
     }
 
