@@ -239,7 +239,7 @@ class Superman
 
 
 * 新增超能力的同时，需要改变超人的构造函数
-* attack方法大段的if-else,夫妇和OCP原则
+* attack方法大段的if-else,不符合OCP原则
 
 
 
@@ -316,7 +316,9 @@ class Superman
 
 [slide]
 
-上面就是：**依赖注入**！
+That's All
+
+> 依赖注入是一个过程
 
 [slide]
 
@@ -334,7 +336,9 @@ $superModule = new XPower;
 $superMan = new Superman($superModule);
 ```
 
+[slide]
 
+# IoC Container
 
 [slide]
 
@@ -411,7 +415,7 @@ $superman_3 = $container->make('superman', ['xpower']);
 
 [slide]
 
-更多例子 — 参数校验
+# 更多例子 — 参数校验
 
 ```php
 class AddTopicCommand {
@@ -431,7 +435,7 @@ function addTopic($arrInput) {
 
 [slide]
 
-声明依赖
+# 声明依赖
 
 ```php
 class GetTopicFollowCommandHandler {
@@ -444,13 +448,40 @@ class GetTopicFollowCommandHandler {
 
 [slide]
 
-社区方案 **Service Container**
+# 开源社区的方案
+
+- [Laravel Service Container](https://laravel.com/docs/5.3/container)
+- [symfony DependencyInjection Component](https://symfony.com/doc/current/components/dependency_injection.html)
+
+
+
+
+
+[slide]
+
+# php社区开发方式[composer](http://pkg.phpcomposer.com/)
+
+安装
 
 ```shell
 composer require illuminate/container
 ```
 
-[具体介绍](https://laravel.com/docs/5.3/container)
+使用
+
+```php
+use Illuminate\Container\Container;
+```
+
+
+
+[slide]
+
+# 参考
+
+[依赖注入那些事儿](http://www.cnblogs.com/leoo2sk/archive/2009/06/17/di-and-ioc.html)
+
+[laravel 学习笔记 —— 神奇的服务容器](https://www.insp.top/learn-laravel-container)
 
 
 
