@@ -1,38 +1,47 @@
 title: IoC
 speaker: 颛顼
-url: https://github.com/ksky521/nodePPT
+url: https://github.com/zhuanxuhit/ioc
 transition: slide3
 theme: moon
 
 
 
 [slide]
-
 # Inversion Of Control
 
 [slide]
-
 ## 你是否被这些问题困扰过
 
 [slide]
-
 ## parameter validation
+---
 
 ```php
 function A($arrInput) {
+
   // parameter validation
-  if($user_id <= 0 || $props_id <= 0 || ( $props_id != 1050001 && $props_id != 1050002 ) )	{
+
+  if($user_id <= 0 || $props_id <= 0 || 
+     ( $props_id != 1050001 && $props_id != 1050002 ) )	{
+
             Bingo_Log::warning("input params invalid. [".serialize($arrInput)."]");
             return self::fail(Tieba_Errcode::ERR_PARAM_ERROR);
+
   }
+
   // something
+
   // call funciton B 
-}
-function B($arrInput) {
-	// parameter validation again!!!!
+
 }
 
+function B($arrInput) {
+
+    // parameter validation again!!!!
+
+}
 ```
+
 
 [slide]
 
@@ -66,13 +75,15 @@ function B() {
 
 # boring work everyday
 
-## 让人狂躁的掀桌
+[slide]
+
+# 让人狂躁的掀桌
 
 [slide]
 
-# dependency injection(DI)
+# <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection(DI)</a>
 
-## implements inversion of control
+<span class="text-success"> implements inversion of control</span>
 
 [slide]
 
@@ -90,18 +101,32 @@ function B() {
 
 # 不用关心怎么去new
 
+[slide]
+
 # 只需要定义好我需要什么
 
 [slide]
 
-# 实践
+# [实践](https://github.com/zhuanxuhit/ioc)
 
 ## talk is cheap, show me the code
 
 [slide]
 
+# 背景 超人和怪物的事
+
+
+
+* 超人有不同的超能力
+* 超人可以使用不同的能力像怪物发起进攻
+
+
+
+[slide]
+
 ```php
 class Superman{}
+class Monster{}
 ```
 
 [slide]
@@ -142,11 +167,11 @@ class Superman
 
 [slide]
 
-超人现在依赖于超能力
+# 超人现在依赖于超能力
 
 [slide]
 
-需要更多的超能力
+# 需要更多的超能力
 
 * 飞行，属性有：飞行速度、持续飞行时间
 * 蛮力，属性有：力量值
@@ -240,8 +265,8 @@ class Superman
 
 
 
-* 将原来创建工作转移到了SuperModuleFactory
-* Superman只依赖于SuperModuleFactory
+* 将原来创建工作转移到了**SuperModuleFactory**
+* **Superman**只依赖于**SuperModuleFactory**
 
 [slide]
 
@@ -271,16 +296,14 @@ $superman = new Superman([
 
 [slide]
 
-工厂模式缺点
-
-
+# 工厂模式缺点
 
 * 如果有新的、高级的模组加入，我们必须修改工厂类
 * 不符合OCP原则
 
 [slide]
 
-申明契约
+# 申明契约
 
 ```php
 interface SuperModuleInterface
@@ -308,7 +331,13 @@ class Superman
 
 上面就是：**依赖注入**！
 
+[slide]
+
 依赖内部产生  —> 外部注入
+
+[slide]
+
+# 小瑕疵：手动创建，手动注入 —> 自动化
 
 ```php
 $superModule = new XPower;
@@ -316,7 +345,7 @@ $superModule = new XPower;
 $superMan = new Superman($superModule);
 ```
 
-手动创建，手动注入，自动化
+
 
 [slide]
 
@@ -433,6 +462,12 @@ composer require illuminate/container
 ```
 
 [具体介绍](https://laravel.com/docs/5.3/container)
+
+
+
+[slide]
+
+# Q&A
 
 
 

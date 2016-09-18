@@ -10,6 +10,11 @@ class Superman
         $this->module = $module;
     }
 
+    public function attack( Monster $monster)
+    {
+
+    }
+
     public function magic()
     {
         $this->module->activate([]);
