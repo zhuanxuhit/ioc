@@ -17,4 +17,21 @@ class Power {
         $this->ability = $ability;
         $this->range   = $range;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAbility()
+    {
+        return $this->ability;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRange()
+    {
+        return $this->range;
+    }
+
 }
