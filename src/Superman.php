@@ -1,17 +1,12 @@
 <?php
 
-class Superman {
+class Superman
+{
+    /** @var \SuperModuleInterface  */
+    protected $module;
 
-    protected $power;
-
-    public function __construct(array $modules)
+    public function __construct(SuperModuleInterface $module)
     {
-        // 初始化工厂
-        $factory = new SuperModuleFactory;
-
-        // 通过工厂提供的方法制造需要的模块
-        foreach ($modules as $moduleName => $moduleOptions) {
-            $this->power[] = $factory->makeModule($moduleName, $moduleOptions);
-        }
+        $this->module = $module;
     }
 }

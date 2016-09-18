@@ -232,6 +232,67 @@ class Superman
 }
 ```
 
+[slide]
+
+
+
+* 将原来创建工作转移到了SuperModuleFactory
+* Superman只依赖于SuperModuleFactory
+
+[slide]
+
+```php
+class Superman
+{
+    protected $power;
+ 
+    public function __construct(array $modules)
+    {
+        // 初始化工厂
+        $factory = new SuperModuleFactory;
+ 
+        // 通过工厂提供的方法制造需要的模块
+        foreach ($modules as $moduleName => $moduleOptions) {
+            $this->power[] = $factory->makeModule($moduleName, $moduleOptions);
+        }
+    }
+}
+ 
+// 创建超人
+$superman = new Superman([
+    'Fight' => [9, 100], 
+    'Shot' => [99, 50, 2]
+    ]);
+```
+
+[slide]
+
+工厂模式缺点
+
+
+
+* 如果有新的、高级的模组加入，我们必须修改工厂类
+* 不符合OCP原则
+
+[slide]
+
+申明契约
+
+```php
+interface SuperModuleInterface
+{
+    /**
+     * 超能力激活方法
+     *
+     * 任何一个超能力都得有该方法，并拥有一个参数
+     *@param array $target 针对目标，可以是一个或多个，自己或他人
+     */
+    public function activate(array $target);
+}
+```
+
+
+
 
 
 # 开源方案
