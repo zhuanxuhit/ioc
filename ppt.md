@@ -289,11 +289,99 @@ interface SuperModuleInterface
      */
     public function activate(array $target);
 }
+class Superman
+{
+    protected $module;
+ 
+    public function __construct(SuperModuleInterface $module)
+    {
+        $this->module = $module
+    }
+}
+```
+
+[slide]
+
+上面就是：**依赖注入**！
+
+依赖内部产生  —> 外部注入
+
+```php
+$superModule = new XPower;
+ 
+$superMan = new Superman($superModule);
+```
+
+手动创建，手动注入，自动化
+
+[slide]
+
+```php
+class Container
+{
+    protected $binds;
+ 
+    protected $instances;
+ 
+    public function bind($abstract, $concrete)
+    {
+        if ($concrete instanceof Closure) {
+            $this->binds[$abstract] = $concrete;
+        } else {
+            $this->instances[$abstract] = $concrete;
+        }
+    }
+ 
+    public function make($abstract, $parameters = [])
+    {
+        if (isset($this->instances[$abstract])) {
+            return $this->instances[$abstract];
+        }
+ 
+        array_unshift($parameters, $this);
+ 
+        return call_user_func_array($this->binds[$abstract], $parameters);
+    }
+}
 ```
 
 
 
+[slide]
 
+```php
+// 创建一个容器（后面称作超级工厂）
+$container = new Container;
+ 
+// 向该 超级工厂 添加 超人 的生产脚本
+$container->bind('superman', function($container, $moduleName) {
+    return new Superman($container->make($moduleName));
+});
+ 
+// 向该 超级工厂 添加 超能力模组 的生产脚本
+$container->bind('xpower', function($container) {
+    return new XPower;
+});
+ 
+// 同上
+$container->bind('ultrabomb', function($container) {
+    return new UltraBomb;
+});
+ 
+// ******************  华丽丽的分割线  **********************
+// 开始启动生产
+$superman_1 = $container->make('superman', ['xpower']);
+$superman_2 = $container->make('superman', ['ultrabomb']);
+$superman_3 = $container->make('superman', ['xpower']);
+```
+
+[slide]
+
+
+
+[slide]
+
+[slide]
 
 # 开源方案
 

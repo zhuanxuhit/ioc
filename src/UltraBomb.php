@@ -8,5 +8,6 @@ class UltraBomb implements SuperModuleInterface
     public function activate(array $target)
     {
         // 这只是个例子。。具体自行脑补
+        echo "终极炸弹生效\n";
     }
 }

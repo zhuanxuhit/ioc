@@ -9,4 +9,10 @@ class Superman
     {
         $this->module = $module;
     }
+
+    public function magic()
+    {
+        $this->module->activate([]);
+    }
+
 }
