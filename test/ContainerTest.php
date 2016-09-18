@@ -29,4 +29,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
         $superman_2->magic();
         $superman_3->magic();
     }
+
+    public function testClosureResolution()
+    {
+        $container = new \Illuminate\Container\Container();
+        $container->bind('name', function () {
+            return 'Taylor';
+        });
+        $this->assertEquals('Taylor', $container->make('name'));
+    }
 }

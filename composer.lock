@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fcdaccf180cb047adfbf829e92491b3b",
-    "content-hash": "4c823b1a8af1643c34167b30d9e6ecf6",
+    "hash": "3961a99df15037e29e5868971b2c942d",
+    "content-hash": "ab3f1e1f240e257f95f3dd5e111fb989",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -60,6 +60,91 @@
                 "instantiate"
             ],
             "time": "2015-06-14 21:17:01"
+        },
+        {
+            "name": "illuminate/container",
+            "version": "v5.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/container.git",
+                "reference": "360f4900dbaa7e76ecfbb58e0ad4b244a90edfe3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/illuminate/container/360f4900dbaa7e76ecfbb58e0ad4b244a90edfe3.zip",
+                "reference": "360f4900dbaa7e76ecfbb58e0ad4b244a90edfe3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.3.*",
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Container\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Container package.",
+            "homepage": "https://laravel.com",
+            "time": "2016-08-05 14:48:10"
+        },
+        {
+            "name": "illuminate/contracts",
+            "version": "v5.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/contracts.git",
+                "reference": "f766fc0452d82d545b866a8ad5860b20ccd50763"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/illuminate/contracts/f766fc0452d82d545b866a8ad5860b20ccd50763.zip",
+                "reference": "f766fc0452d82d545b866a8ad5860b20ccd50763",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Contracts\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Contracts package.",
+            "homepage": "https://laravel.com",
+            "time": "2016-08-21 12:37:00"
         },
         {
             "name": "myclabs/deep-copy",

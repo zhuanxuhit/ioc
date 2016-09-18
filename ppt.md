@@ -39,7 +39,11 @@ function B($arrInput) {
 ## dependence
 
 ```php
-
+function doSomeThingToUser($arrInput) {
+  // userInfo struct must be equals to 
+  $userInfo = Tieba_Service::call('user','getUerInfo',$arrInput);
+  
+}
 ```
 
 [slide]
@@ -66,7 +70,7 @@ function B() {
 
 [slide]
 
-# dependency injection
+# dependency injection(DI)
 
 ## implements inversion of control
 
@@ -377,13 +381,58 @@ $superman_3 = $container->make('superman', ['xpower']);
 
 [slide]
 
+# 这就是 IoC 容器！
+
+
+
+* bind（绑定）
+* make（生产）
+* more
+
 
 
 [slide]
 
+更多例子 — 参数校验
+
+```php
+class AddTopicCommand {
+
+    public $title;
+    public $description;
+    public $tags;
+    public $user_id;
+     
+  	public function __construct( $title, $tags, $user_id, $description = '' ){}
+}
+
+function addTopic($arrInput) {
+  // auto map arrInput to AddTopicCommand
+}
+```
+
 [slide]
 
-# 开源方案
+声明依赖
+
+```php
+class GetTopicFollowCommandHandler {
+  public function __construct( FollowerRepository $followRepository,
+                                 TopicRepository $topicRepository)
+    {
+    }
+}
+```
+
+[slide]
+
+社区方案 **Service Container**
+
+```shell
+composer require illuminate/container
+```
+
+[具体介绍](https://laravel.com/docs/5.3/container)
 
 
 
