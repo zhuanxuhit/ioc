@@ -1,0 +1,17 @@
+{
+    "name": "zhuanxu/ioc",
+    "authors": [
+        {
+            "name": "zhuanxuhit",
+            "email": "893051481@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "":"src/"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "^5.5"
+    }
+}
