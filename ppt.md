@@ -162,12 +162,15 @@ class Superman
     {
         $this->power = new Power(999, 100);
     }
+  	public function attack( Monster $monster )
+    {
+        if ( $this->power instanceof Power ) {          
+            $power = $this->power;
+            echo sprintf("超人能力:%d,范围:%d\n",$power->getAbility(),$power->getRange());
+        }
+    }
 }
 ```
-
-[slide]
-
-# 超人现在依赖于超能力
 
 [slide]
 
@@ -212,61 +215,37 @@ class Superman
     public function __construct()
     {
         $this->power = new Fight(9, 100);
-        // $this->power = new Force(45);
-        // $this->power = new Shot(99, 50, 2);
-        /*
-        $this->power = array(
-            new Force(45),
-            new Shot(99, 50, 2)
-        );
-        */
     }
+  public function attack( Monster $monster )
+    {
+        if ( $this->power instanceof Power ) {
+        }
+        else if ($this->power instanceof Flight){           
+        }
+        else if ($this->power instanceof Force){
+        }
+        else {
+
+        }
+    }
+
 }
 ```
 
 [slide]
 
-超人有点忙了！
+# 超人有点忙了！
 
-**改变超能力的同时，我还得重新制造个超人**
+
+
+* 新增超能力的同时，需要改变超人的构造函数
+* attack方法大段的if-else,夫妇和OCP原则
+
+
 
 [slide]
 
 ## 工厂模式，依赖转移
-
-```php
-class SuperModuleFactory
-{
-    public function makeModule($moduleName, $options)
-    {
-        switch ($moduleName) {
-            case 'Fight':   return new Fight($options[0], $options[1]);
-            case 'Force':   return new Force($options[0]);
-            case 'Shot':    return new Shot($options[0], $options[1], $options[2]);
-        }
-    }
-}
-class Superman
-{
-    protected $power;
- 
-    public function __construct()
-    {
-        // 初始化工厂
-        $factory = new SuperModuleFactory;
- 
-        // 通过工厂提供的方法制造需要的模块
-        $this->power = $factory->makeModule('Fight', [9, 100]);
-    }
-}
-```
-
-[slide]
-
-
-
-* 将原来创建工作转移到了**SuperModuleFactory**
-* **Superman**只依赖于**SuperModuleFactory**
 
 [slide]
 
@@ -289,10 +268,18 @@ class Superman
  
 // 创建超人
 $superman = new Superman([
-    'Fight' => [9, 100], 
-    'Shot' => [99, 50, 2]
+    'Fight' => [9, 100]
     ]);
 ```
+
+[slide]
+
+
+
+- 将原来创建工作转移到了**SuperModuleFactory**
+- **Superman**只依赖于**SuperModuleFactory**
+
+
 
 [slide]
 
