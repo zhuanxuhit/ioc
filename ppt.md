@@ -162,15 +162,12 @@ class Superman
     {
         $this->power = new Power(999, 100);
     }
-  	public function attack( Monster $monster )
-    {
-        if ( $this->power instanceof Power ) {          
-            $power = $this->power;
-            echo sprintf("超人能力:%d,范围:%d\n",$power->getAbility(),$power->getRange());
-        }
-    }
 }
 ```
+
+[slide]
+
+# 超人现在依赖于超能力
 
 [slide]
 
@@ -224,19 +221,6 @@ class Superman
         );
         */
     }
-  public function attack( Monster $monster )
-    {
-        if ( $this->power instanceof Power ) {
-        }
-        else if ($this->power instanceof Flight){           
-        }
-        else if ($this->power instanceof Force){
-        }
-        else {
-
-        }
-    }
-
 }
 ```
 

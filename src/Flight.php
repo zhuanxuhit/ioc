@@ -27,21 +27,4 @@ class Flight {
         $this->speed    = $speed;
         $this->holdtime = $holdtime;
     }
-
-    /**
-     * @return int
-     */
-    public function getSpeed(): int
-    {
-        return $this->speed;
-    }
-
-    /**
-     * @return int
-     */
-    public function getHoldtime(): int
-    {
-        return $this->holdtime;
-    }
-
 }

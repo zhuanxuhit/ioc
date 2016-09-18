@@ -13,12 +13,4 @@ class Force {
         $this->force = $force;
     }
 
-    /**
-     * @return int
-     */
-    public function getForce(): int
-    {
-        return $this->force;
-    }
-
 }
