@@ -1,0 +1,531 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.4.2
+    site: https://github.com/ksky521/nodePPT
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IoC - By 颛顼</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+    
+<link rel="stylesheet" href="./css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Inversion Of Control</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>你是否被这些问题困扰过</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>parameter validation</h2>
+
+</hgroup><article>
+
+<pre><code class="php">function A($arrInput) {
+
+  // parameter validation
+
+  if($user_id &lt;= 0 || $props_id &lt;= 0 || 
+     ( $props_id != 1050001 &amp;&amp; $props_id != 1050002 ) )    {
+
+            Bingo_Log::warning(&quot;input params invalid. [&quot;.serialize($arrInput).&quot;]&quot;);
+            return self::fail(Tieba_Errcode::ERR_PARAM_ERROR);
+
+  }
+
+  // something
+
+  // call funciton B 
+
+}
+
+function B($arrInput) {
+
+    // parameter validation again!!!!
+
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>dependence</h2>
+<pre><code class="php">function doSomeThingToUser($arrInput) {
+  // userInfo struct must be equals to 
+  $userInfo = Tieba_Service::call(&#39;user&#39;,&#39;getUerInfo&#39;,$arrInput);
+
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>global variable everywhere</h2>
+<pre><code class="php">function A() {
+  $db = Service_Libs_Db::getDB()
+  // do something, and call function B
+  B()  
+}
+function B() {
+  // also get db
+  $db = Service_Libs_Db::getDB()
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>boring work everyday</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>让人狂躁的掀桌</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1><a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection(DI)</a></h1>
+<p><span class="text-success"> implements inversion of control</span></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>是什么东西</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>一种设计模式</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>解决了什么问题</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>不用关心怎么去new</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>只需要定义好我需要什么</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1><a href="https://github.com/zhuanxuhit/ioc" target="_blank">实践</a></h1>
+<h2>talk is cheap, show me the code</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>背景 超人和怪物的事</h1>
+<ul>
+<li>超人有不同的超能力</li>
+<li>超人可以使用不同的能力像怪物发起进攻</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">class Superman{}
+class Monster{}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">class Power {
+    /**
+     * 能力值
+     */
+    protected $ability;
+
+    /**
+     * 能力范围或距离
+     */
+    protected $range;
+
+    public function __construct($ability, $range)
+    {
+        $this-&gt;ability = $ability;
+        $this-&gt;range = $range;
+    }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">class Superman
+{
+    protected $power;
+
+    public function __construct()
+    {
+        $this-&gt;power = new Power(999, 100);
+    }
+      public function attack( Monster $monster )
+    {
+        if ( $this-&gt;power instanceof Power ) {          
+            $power = $this-&gt;power;
+            echo sprintf(&quot;超人能力:%d,范围:%d\n&quot;,$power-&gt;getAbility(),$power-&gt;getRange());
+        }
+    }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>需要更多的超能力</h1>
+<ul>
+<li>飞行，属性有：飞行速度、持续飞行时间</li>
+<li>蛮力，属性有：力量值</li>
+<li>能量弹，属性有：伤害值、射击距离、同时射击个数</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">class Flight
+{
+    protected $speed;
+    protected $holdtime;
+    public function __construct($speed, $holdtime) {}
+}
+
+class Force
+{
+    protected $force;
+    public function __construct($force) {}
+}
+
+class Shot
+{
+    protected $atk;
+    protected $range;
+    protected $limit;
+    public function __construct($atk, $range, $limit) {}
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">class Superman
+{
+    protected $power;
+
+    public function __construct()
+    {
+        $this-&gt;power = new Fight(9, 100);
+    }
+  public function attack( Monster $monster )
+    {
+        if ( $this-&gt;power instanceof Power ) {
+        }
+        else if ($this-&gt;power instanceof Flight){           
+        }
+        else if ($this-&gt;power instanceof Force){
+        }
+        else {
+
+        }
+    }
+
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>超人有点忙了！</h1>
+<ul>
+<li>新增超能力的同时，需要改变超人的构造函数</li>
+<li>attack方法大段的if-else,不符合OCP原则</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>工厂模式，依赖转移</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">class Superman
+{
+    protected $power;
+
+    public function __construct(array $modules)
+    {
+        // 初始化工厂
+        $factory = new SuperModuleFactory;
+
+        // 通过工厂提供的方法制造需要的模块
+        foreach ($modules as $moduleName =&gt; $moduleOptions) {
+            $this-&gt;power[] = $factory-&gt;makeModule($moduleName, $moduleOptions);
+        }
+    }
+}
+
+// 创建超人
+$superman = new Superman([
+    &#39;Fight&#39; =&gt; [9, 100]
+    ]);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<ul>
+<li>将原来创建工作转移到了<strong>SuperModuleFactory</strong></li>
+<li><strong>Superman</strong>只依赖于<strong>SuperModuleFactory</strong></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>工厂模式缺点</h1>
+<ul>
+<li>如果有新的、高级的超能力，我们必须修改工厂类</li>
+<li>超人依赖于具体的超能力工厂</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>申明契约</h1>
+<pre><code class="php">interface SuperModuleInterface
+{
+    /**
+     * 超能力激活方法
+     *
+     * 任何一个超能力都得有该方法，并拥有一个参数
+     *@param array $target 针对目标，可以是一个或多个，自己或他人
+     */
+    public function activate(array $target);
+}
+class Superman
+{
+    protected $module;
+
+    public function __construct(SuperModuleInterface $module)
+    {
+        $this-&gt;module = $module
+    }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>That&#39;s All</p>
+<blockquote>
+<p>依赖注入是一个过程</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<ul>
+<li>隔离变化</li>
+<li>依赖抽象</li>
+<li>具体注入</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>小瑕疵：手动创建，手动注入 —&gt; 自动化</h1>
+<pre><code class="php">$superModule = new XPower;
+
+$superMan = new Superman($superModule);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>IoC Container</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">class Container
+{
+    protected $binds;
+
+    protected $instances;
+
+    public function bind($abstract, $concrete)
+    {
+        if ($concrete instanceof Closure) {
+            $this-&gt;binds[$abstract] = $concrete;
+        } else {
+            $this-&gt;instances[$abstract] = $concrete;
+        }
+    }
+
+    public function make($abstract, $parameters = [])
+    {
+        if (isset($this-&gt;instances[$abstract])) {
+            return $this-&gt;instances[$abstract];
+        }
+
+        array_unshift($parameters, $this);
+
+        return call_user_func_array($this-&gt;binds[$abstract], $parameters);
+    }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="php">// 创建一个容器（后面称作超级工厂）
+$container = new Container;
+
+// 向该 超级工厂 添加 超人 的生产脚本
+$container-&gt;bind(&#39;superman&#39;, function($container, $moduleName) {
+    return new Superman($container-&gt;make($moduleName));
+});
+
+// 向该 超级工厂 添加 超能力模组 的生产脚本
+$container-&gt;bind(&#39;xpower&#39;, function($container) {
+    return new XPower;
+});
+
+// 同上
+$container-&gt;bind(&#39;ultrabomb&#39;, function($container) {
+    return new UltraBomb;
+});
+
+// ******************  华丽丽的分割线  **********************
+// 开始启动生产
+$superman_1 = $container-&gt;make(&#39;superman&#39;, [&#39;xpower&#39;]);
+$superman_2 = $container-&gt;make(&#39;superman&#39;, [&#39;ultrabomb&#39;]);
+$superman_3 = $container-&gt;make(&#39;superman&#39;, [&#39;xpower&#39;]);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>这就是 IoC 容器！</h1>
+<ul>
+<li>bind（绑定）</li>
+<li>make（生产）</li>
+<li>more</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>更多例子 — 参数校验</h1>
+<pre><code class="php">class AddTopicCommand {
+
+    public $title;
+    public $description;
+    public $tags;
+    public $user_id;
+
+      public function __construct( $title, $tags, $user_id, $description = &#39;&#39; ){}
+}
+
+function addTopic($arrInput) {
+  // auto map arrInput to AddTopicCommand
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>声明依赖</h1>
+<pre><code class="php">class GetTopicFollowCommandHandler {
+  public function __construct( FollowerRepository $followRepository,
+                                 TopicRepository $topicRepository)
+    {
+    }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>开源社区的方案</h1>
+<ul>
+<li><a href="https://laravel.com/docs/5.3/container" target="_blank">Laravel Service Container</a></li>
+<li><a href="https://symfony.com/doc/current/components/dependency_injection.html" target="_blank">symfony DependencyInjection Component</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>php社区开发方式<a href="http://pkg.phpcomposer.com/" target="_blank">composer</a></h1>
+<p>安装</p>
+<pre><code class="shell">composer require illuminate/container
+</code></pre>
+<p>使用</p>
+<pre><code class="php">use Illuminate\Container\Container;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>参考</h1>
+<p><a href="http://www.cnblogs.com/leoo2sk/archive/2009/06/17/di-and-ioc.html" target="_blank">依赖注入那些事儿</a></p>
+<p><a href="https://www.insp.top/learn-laravel-container" target="_blank">laravel 学习笔记 —— 神奇的服务容器</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Q&amp;A</h1>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodePPT v1.4.2</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide3',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
