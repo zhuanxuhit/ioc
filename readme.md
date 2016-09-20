@@ -9,3 +9,7 @@ ppt生成
 `nodeppt generate ppt.md output -a`
 
 在output下是已经生成的ppt文件
+
+项目使用
+
+clone下来后，执行`composer install`安装
